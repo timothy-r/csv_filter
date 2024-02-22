@@ -1,12 +1,30 @@
 import sys
+from dependency_injector.wiring import Provide, inject
 
-def main(args:list) -> None:
+from csv_filter.container import Container
+from csv_filter.filter.filter import Filter
 
-    # get a filter object
-    # pass input file & args
+@inject
+def main(
+    path:str,
+    args:list,
+    filter: Filter = Provide[Container.filter]
+    ) -> None:
+
+    result = filter.run(path=path, args=args)
+
     # print its response
-
-    pass
+    print(result)
 
 if __name__ == "__main__":
-    main(sys.argv)
+
+    container = Container()
+    container.init_resources()
+    container.wire(modules=[__name__])
+
+    args = sys.argv
+    # remove the module name
+    args.pop(0)
+    path = args.pop(0)
+
+    main(path=path, args=args)

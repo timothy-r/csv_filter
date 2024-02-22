@@ -22,6 +22,7 @@ class CliParserTest(unittest.TestCase):
 
             self._parser.parse([arg])
             self.assertEqual(1, self._parser.condition_count())
+            self.assertEqual(0, self._parser.operator_count())
             condition = self._parser.condition(0)
 
             self.assertEqual(arg_list[0], condition.lhs)
@@ -42,6 +43,7 @@ class CliParserTest(unittest.TestCase):
 
             self._parser.parse([arg])
             self.assertEqual(1, self._parser.condition_count())
+            self.assertEqual(0, self._parser.operator_count())
             condition = self._parser.condition(0)
 
             self.assertEqual(arg_list[0], condition.lhs)
