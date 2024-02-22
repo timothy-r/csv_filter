@@ -25,7 +25,7 @@ class CliParserTest(unittest.TestCase):
             condition = self._parser.condition(0)
 
             self.assertEqual(arg_list[0], condition.lhs)
-            self.assertEqual(arg_list[1], condition.op)
+            self.assertEqual(arg_list[1], condition.comparison)
             self.assertEqual(arg_list[2], condition.rhs)
 
     def test_parse_one_condition_multi_value(self) -> None:
@@ -45,13 +45,13 @@ class CliParserTest(unittest.TestCase):
             condition = self._parser.condition(0)
 
             self.assertEqual(arg_list[0], condition.lhs)
-            self.assertEqual(arg_list[1], condition.op)
+            self.assertEqual(arg_list[1], condition.comparison)
             self.assertEqual(arg_list[2], condition.rhs)
 
     def test_parse_two_conditions(self) -> None:
         args = [
-            [['A','=','2'], 'or',['Bingo','=','Yes']],
-            [['w3','<','99'], 'and', ['wiggle', '=', 'f']]
+            [['A','=','2'], CliParser.OP_OR,['Bingo','=','Yes']],
+            [['w3','<','99'], CliParser.OP_AND, ['wiggle', '=', 'f']]
         ]
 
         for arg_list in args:

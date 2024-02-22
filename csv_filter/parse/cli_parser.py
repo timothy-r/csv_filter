@@ -1,12 +1,19 @@
 import re
 from collections import namedtuple
 
-Condition = namedtuple("Condition", "lhs op rhs")
+Condition = namedtuple("Condition", "lhs comparison rhs")
 
 """
-    Class to parse a list of arguments into a format to use to build a filter
+    Class that parses a list of arguments into a format to use to build a filter
 """
 class CliParser:
+
+    OP_AND = 'and'
+    OP_OR = 'or'
+
+    EQUALS = '='
+    GREATER_THAN = '>'
+    LESS_THAN = '<'
 
     def parse(self, args:list) -> None:
         self._args = args
@@ -19,7 +26,10 @@ class CliParser:
             if (index % 2 == 0):
                 self._conditions.append(self._parse_condition(arg))
             else:
-                self._operators.append(arg)
+                if arg in [self.OP_AND, self.OP_OR]:
+                    self._operators.append(arg)
+                else:
+                    raise ValueError('Invalid operator "{}"'.format(arg))
 
             index += 1
 
@@ -39,8 +49,8 @@ class CliParser:
 
     def _parse_condition(self, arg:str):
         """
-            split arg into 3 parts lhs, op, rhs
-                valid ops are = < >
+            split arg into 3 parts lhs, comparison, rhs
+            valid op comparisons are = < >
             split rhs on comma
         """
 
@@ -51,6 +61,10 @@ class CliParser:
             rhs = matches.group(3).split(',')
             if len(rhs) == 1:
                 rhs = matches.group(3)
-            return Condition(lhs=matches.group(1),op=matches.group(2), rhs=rhs)
+
+            if matches.group(2) in [self.EQUALS, self.GREATER_THAN, self.LESS_THAN]:
+                return Condition(lhs=matches.group(1),comparison=matches.group(2), rhs=rhs)
+            else:
+                raise ValueError('Invalid comparison arg "{}"'.format(matches.group(2)))
         else:
-            raise ValueError
+            raise ValueError('Invalid arg "{}"'.format(arg))
