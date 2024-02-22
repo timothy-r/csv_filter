@@ -1,2 +1,8 @@
-dependency-injector >= 4.39.1
-dependency-injector[yaml]
+dependency-injector==4.41.0
+numpy==1.26.4
+pandas==2.2.0
+python-dateutil==2.8.2
+pytz==2024.1
+PyYAML==6.0.1
+six==1.16.0
+tzdata==2024.1
