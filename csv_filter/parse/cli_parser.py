@@ -30,8 +30,12 @@ class CliParser:
     def condition_count(self) -> int:
         return len(self._conditions)
 
+    def operator(self, index:int) -> str:
+        if index < len(self._operators):
+            return self._operators[index]
+
     def operator_count(self) -> int:
-        pass
+        return len(self._operators)
 
     def _parse_condition(self, arg:str):
         """
