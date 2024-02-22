@@ -1,0 +1,2 @@
+dependency-injector >= 4.39.1
+dependency-injector[yaml]
