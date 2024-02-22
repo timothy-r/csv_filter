@@ -40,8 +40,13 @@ class CliParser:
             split rhs on comma
         """
 
-        matches = re.match("(\w+)(\W)(\w+)", arg)
+        matches = re.match("(\w+)(\W)(.*)", arg)
+
         if len(matches.groups()) == 3:
-            return Condition(lhs=matches.group(1),op=matches.group(2), rhs=matches.group(3))
+            # split rhs on comma
+            rhs = matches.group(3).split(',')
+            if len(rhs) == 1:
+                rhs = matches.group(3)
+            return Condition(lhs=matches.group(1),op=matches.group(2), rhs=rhs)
         else:
             raise ValueError
