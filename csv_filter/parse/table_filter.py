@@ -1,7 +1,7 @@
 from collections import namedtuple
 import pandas as pd
 
-Condition = namedtuple("Condition", "lhs comparison rhs")
+from csv_filter.parse.condition import Condition
 
 """
     Class that encapsulates the filters to apply to a pandas data frame
@@ -11,19 +11,11 @@ class TableFilter:
     OP_AND = 'and'
     OP_OR = 'or'
 
-    EQUALS = '='
-    GREATER_THAN = '>'
-    LESS_THAN = '<'
-
     def __init__(self) -> None:
         self._conditions = []
         self._operators = []
 
     def add_condition(self, condition:Condition) -> None:
-        t = type(condition.rhs)
-        if not t in [str, list]:
-            raise ValueError("Invalid rhs type: {}".format(t))
-
         self._conditions.append(condition)
 
     def condition(self, index:int) -> Condition:
@@ -46,9 +38,6 @@ class TableFilter:
     def operator_count(self) -> int:
         return len(self._operators)
 
-    def valid_comparisons(self) -> list:
-        return [TableFilter.LESS_THAN, TableFilter.EQUALS, TableFilter.GREATER_THAN]
-
     def apply_filters(self, df:pd.DataFrame) -> pd.DataFrame:
         """
             apply the set filters to the parameter data frame and return the result
@@ -67,15 +56,15 @@ class TableFilter:
             lhs = condition.lhs
 
             if type(condition.rhs) == str:
-                if condition.comparison == TableFilter.EQUALS:
+                if condition.comparison == Condition.EQUALS:
                     df = df.loc[df[lhs] == condition.rhs]
-                elif condition.comparison == TableFilter.GREATER_THAN:
+                elif condition.comparison == Condition.GREATER_THAN:
                     df = df.loc[df[lhs] > condition.rhs]
-                elif condition.comparison == TableFilter.LESS_THAN:
+                elif condition.comparison == Condition.LESS_THAN:
                     df = df.loc[df[lhs] < condition.rhs]
 
             elif type(condition.rhs) == list:
-                if condition.comparison == TableFilter.EQUALS:
+                if condition.comparison == Condition.EQUALS:
                     df = df.loc[df[lhs].isin(condition.rhs)]
                 else:
                     raise TypeError
@@ -89,6 +78,7 @@ class TableFilter:
         operator = self._operators[0]
         condition_2 = self._conditions[1]
 
+        # need to use condition.comparison as well
         if type(condition_1.rhs) == str and type(condition_2.rhs) == str and operator == TableFilter.OP_AND:
             df = df.loc[(df[condition_1.lhs] == condition_1.rhs) & (df[condition_2.lhs] == condition_2.rhs)]
         else:
