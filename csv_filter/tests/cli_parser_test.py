@@ -58,7 +58,7 @@ class CliParserTest(unittest.TestCase):
 
     def test_parse_two_conditions(self) -> None:
         args = [
-            [['A','=','2'], TableFilter.OP_OR,['Bingo','=','Yes']],
+            [['A B','=','2'], TableFilter.OP_OR,['Bingo Yule','=','Yes']],
             [['w3','<','99'], TableFilter.OP_AND, ['wiggle', '=', 'f']]
         ]
 

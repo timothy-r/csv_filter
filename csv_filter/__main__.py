@@ -13,6 +13,7 @@ def main(
     ) -> None:
 
     try:
+
         parser = CliParser(args=args)
         table_filter = parser.generate()
 

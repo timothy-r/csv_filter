@@ -6,7 +6,6 @@ Condition = namedtuple("Condition", "lhs comparison rhs")
 """
     Class that encapsulates the filters to apply to a table of data (eg csv file)
 """
-
 class TableFilter:
 
     OP_AND = 'and'
