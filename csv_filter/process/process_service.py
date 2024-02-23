@@ -1,13 +1,21 @@
 import pandas as pd
 from csv_filter.parse.cli_parser import CliParser
 
+"""
+
+"""
 class ProcessService:
 
     def __init__(self, parser:CliParser) -> None:
         self._parser = parser
 
     def run(self, path:str, args:list) -> str:
-
+        """
+            parse the arguments
+            read the file into a data frame
+            apply the filters
+            return the filtered csv as a string (or write to a file?)
+        """
         df = pd.read_csv(filepath_or_buffer=path)
 
         filtered_df = df
