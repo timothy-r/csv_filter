@@ -3,6 +3,8 @@ import re
 from csv_filter.parse.filter_generator import FilterGenerator
 from csv_filter.parse.table_filter import TableFilter
 from csv_filter.parse.condition import Condition
+from csv_filter.parse.operator import Operator
+
 """
     Class that parses a list of arguments into a format to use to build a filter
 """
@@ -26,7 +28,11 @@ class CliParser(FilterGenerator):
                     self._parse_condition(arg=arg, valid_comparisons=valid_comparisons)
                 )
             else:
-                table_filter.add_operator(arg)
+                op = Operator.from_str(arg)
+                if op:
+                    table_filter.add_operator(operator=op)
+                else:
+                    raise ValueError("Invalid operator: {}".format(arg))
 
             index += 1
 

@@ -2,6 +2,7 @@ import unittest
 
 from csv_filter.parse.cli_parser import CliParser
 from csv_filter.parse.table_filter import TableFilter
+from csv_filter.parse.operator import Operator
 
 class CliParserTest(unittest.TestCase):
 
@@ -58,8 +59,8 @@ class CliParserTest(unittest.TestCase):
 
     def test_parse_two_conditions(self) -> None:
         args = [
-            [['A B','=','2'], TableFilter.OP_OR,['Bingo Yule','=','Yes']],
-            [['w3','<','99'], TableFilter.OP_AND, ['wiggle', '=', 'f']]
+            [['A B','=','2'], Operator.OR.value, ['Bingo Yule','=','Yes']],
+            [['w3','<','99'], Operator.AND.value, ['wiggle', '=', 'f']]
         ]
 
         for arg_list in args:
@@ -75,4 +76,7 @@ class CliParserTest(unittest.TestCase):
             self.assertEqual(1, result.operator_count())
 
             operator = result.operator(0)
-            self.assertEqual(arg_list[1], operator)
+            if arg_list[1] == Operator.AND:
+                self.assertEqual(Operator.AND, operator)
+            elif arg_list[1] == Operator.OR:
+                self.assertEqual(Operator.OR, operator)

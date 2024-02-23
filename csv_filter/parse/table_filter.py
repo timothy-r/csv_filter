@@ -1,7 +1,7 @@
-from collections import namedtuple
 import pandas as pd
 
 from csv_filter.parse.condition import Condition
+from csv_filter.parse.operator import Operator
 
 """
     Class that encapsulates the filters to apply to a pandas data frame
@@ -25,11 +25,8 @@ class TableFilter:
     def condition_count(self) -> int:
         return len(self._conditions)
 
-    def add_operator(self, operator:str) -> None:
-        if operator in [self.OP_AND, self.OP_OR]:
-            self._operators.append(operator)
-        else:
-            raise ValueError('Invalid operator "{}"'.format(operator))
+    def add_operator(self, operator:Operator) -> None:
+        self._operators.append(operator)
 
     def operator(self, index:int) -> str:
         if index < len(self._operators):
@@ -79,7 +76,7 @@ class TableFilter:
         condition_2 = self._conditions[1]
 
         # need to use condition.comparison as well
-        if type(condition_1.rhs) == str and type(condition_2.rhs) == str and operator == TableFilter.OP_AND:
+        if type(condition_1.rhs) == str and type(condition_2.rhs) == str and operator == Operator.AND:
             df = df.loc[(df[condition_1.lhs] == condition_1.rhs) & (df[condition_2.lhs] == condition_2.rhs)]
         else:
             raise TypeError
