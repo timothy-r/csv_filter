@@ -2,7 +2,7 @@ import sys
 from dependency_injector.wiring import Provide, inject
 
 from csv_filter.container import Container
-from csv_filter.filter.filter import ProcessService
+from csv_filter.filter.process_service import ProcessService
 
 @inject
 def main(
