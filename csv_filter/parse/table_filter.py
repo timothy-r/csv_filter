@@ -9,9 +9,6 @@ from csv_filter.parse.comparison import Comparision
 """
 class TableFilter:
 
-    OP_AND = 'and'
-    OP_OR = 'or'
-
     def __init__(self) -> None:
         self._conditions = []
         self._operators = []
