@@ -2,13 +2,13 @@ import sys
 from dependency_injector.wiring import Provide, inject
 
 from csv_filter.container import Container
-from csv_filter.filter.filter import Filter
+from csv_filter.filter.filter import ProcessService
 
 @inject
 def main(
     path:str,
     args:list,
-    filter: Filter = Provide[Container.filter]
+    filter: ProcessService = Provide[Container.filter]
     ) -> None:
 
     result = filter.run(path=path, args=args)

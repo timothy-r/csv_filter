@@ -1,7 +1,7 @@
 import pandas as pd
 from csv_filter.parse.cli_parser import CliParser
 
-class Filter:
+class ProcessService:
 
     def __init__(self, parser:CliParser) -> None:
         self._parser = parser
