@@ -3,7 +3,7 @@ import unittest
 from csv_filter.parse.cli_parser import CliParser
 from csv_filter.parse.table_filter import TableFilter
 from csv_filter.parse.operator import Operator
-
+from csv_filter.parse.comparison import Comparision
 class CliParserTest(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -31,7 +31,8 @@ class CliParserTest(unittest.TestCase):
             condition = result.condition(0)
 
             self.assertEqual(arg_list[0], condition.lhs)
-            self.assertEqual(arg_list[1], condition.comparison)
+            comp = Comparision.from_str(arg_list[1])
+            self.assertEqual(comp, condition.comparison)
             self.assertEqual(arg_list[2], condition.rhs)
 
     def test_parse_one_condition_multi_value(self) -> None:
@@ -54,7 +55,8 @@ class CliParserTest(unittest.TestCase):
             condition = result.condition(0)
 
             self.assertEqual(arg_list[0], condition.lhs)
-            self.assertEqual(arg_list[1], condition.comparison)
+            comp = Comparision.from_str(arg_list[1])
+            self.assertEqual(comp, condition.comparison)
             self.assertEqual(arg_list[2], condition.rhs)
 
     def test_parse_two_conditions(self) -> None:

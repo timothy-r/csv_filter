@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from csv_filter.parse.comparison import Comparision
+
 """
     Class that contains the parts of a condition to filter on
 """
@@ -7,21 +9,19 @@ from dataclasses import dataclass
 class Condition:
 
     lhs: str
-    comparison: str
+    comparison: Comparision
     rhs: str|list
 
-    EQUALS = '='
-    GREATER_THAN = '>'
-    LESS_THAN = '<'
-
     def __post_init__(self):
-        if self.comparison not in Condition.valid_comparisons():
-            raise ValueError("Comparison {} is invalid".format(self.comparison))
-
         t = type(self.rhs)
         if not t in [str, list]:
             raise TypeError("rhs is an invalid type: {}".format(t))
 
-    @staticmethod
-    def valid_comparisons() -> list:
-        return [Condition.LESS_THAN, Condition.EQUALS, Condition.GREATER_THAN]
+    def is_equals(self) -> bool:
+        return self.comparison == Comparision.EQUALS
+
+    def is_less_than(self) -> bool:
+        return self.comparison == Comparision.LESS_THAN
+
+    def is_greater_than(self) -> bool:
+        return self.comparison == Comparision.GREATER_THAN

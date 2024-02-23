@@ -4,6 +4,7 @@ from csv_filter.parse.filter_generator import FilterGenerator
 from csv_filter.parse.table_filter import TableFilter
 from csv_filter.parse.condition import Condition
 from csv_filter.parse.operator import Operator
+from csv_filter.parse.comparison import Comparision
 
 """
     Class that parses a list of arguments into a format to use to build a filter
@@ -20,7 +21,7 @@ class CliParser(FilterGenerator):
         table_filter = TableFilter()
         index = 0
 
-        valid_comparisons = ''.join(Condition.valid_comparisons())
+        valid_comparisons = ''.join(Comparision.valid_comparisons())
 
         for arg in self._args:
             if (index % 2 == 0):
@@ -54,6 +55,8 @@ class CliParser(FilterGenerator):
             if len(rhs) == 1:
                 rhs = matches.group(3)
 
-            return Condition(lhs=matches.group(1),comparison=matches.group(2), rhs=rhs)
+            comp = Comparision.from_str(matches.group(2))
+
+            return Condition(lhs=matches.group(1), comparison=comp, rhs=rhs)
         else:
             raise ValueError('Invalid arg "{}"'.format(arg))

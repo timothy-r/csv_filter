@@ -2,6 +2,7 @@ import pandas as pd
 
 from csv_filter.parse.condition import Condition
 from csv_filter.parse.operator import Operator
+from csv_filter.parse.comparison import Comparision
 
 """
     Class that encapsulates the filters to apply to a pandas data frame
@@ -53,15 +54,15 @@ class TableFilter:
             lhs = condition.lhs
 
             if type(condition.rhs) == str:
-                if condition.comparison == Condition.EQUALS:
+                if condition.comparison == Comparision.EQUALS:
                     df = df.loc[df[lhs] == condition.rhs]
-                elif condition.comparison == Condition.GREATER_THAN:
+                elif condition.comparison == Comparision.GREATER_THAN:
                     df = df.loc[df[lhs] > condition.rhs]
-                elif condition.comparison == Condition.LESS_THAN:
+                elif condition.comparison == Comparision.LESS_THAN:
                     df = df.loc[df[lhs] < condition.rhs]
 
             elif type(condition.rhs) == list:
-                if condition.comparison == Condition.EQUALS:
+                if condition.comparison == Comparision.EQUALS:
                     df = df.loc[df[lhs].isin(condition.rhs)]
                 else:
                     raise TypeError
