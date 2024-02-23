@@ -14,7 +14,8 @@ class CliParserTest(unittest.TestCase):
             ['A','=','2'],
             ['w3','=','q'],
             ['Z','>','5'],
-            ['q','<','0']
+            ['q','<','0'],
+            ["ACCOUNT BALANCE", '=','500.0']
         ]
 
         for arg_list in args:

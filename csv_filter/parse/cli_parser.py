@@ -54,7 +54,7 @@ class CliParser:
             split rhs on comma
         """
 
-        matches = re.match("(\w+)(\W)(.*)", arg)
+        matches = re.match("(.*)([=<>])(.*)", arg)
 
         if len(matches.groups()) == 3:
             # split rhs on comma
