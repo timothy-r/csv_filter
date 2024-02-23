@@ -20,8 +20,9 @@ def main(
 
         # print its response
         print(result)
-    except KeyError:
-        print("Error")
+
+    except KeyError as err:
+        print("KeyError: key'{}' is invalid".format(err))
 
 if __name__ == "__main__":
 
