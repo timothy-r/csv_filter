@@ -1,6 +1,5 @@
 import pandas as pd
 
-# from csv_filter.parse.cli_parser import CliParser
 from csv_filter.parse.table_filter import TableFilter
 
 """
@@ -42,7 +41,10 @@ class ProcessService:
                     df = df.loc[df[lhs] < condition.rhs]
 
             elif type(condition.rhs) == list:
-                pass
+                if condition.comparison == TableFilter.EQUALS:
+                    df = df.loc[df[lhs].isin(condition.rhs)]
+                else:
+                    raise TypeError
             else:
                 raise TypeError
         elif ops == 1:
