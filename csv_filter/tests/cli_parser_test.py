@@ -15,7 +15,8 @@ class CliParserTest(unittest.TestCase):
             ['w3','=','q'],
             ['Z','>','5'],
             ['q','<','0'],
-            ["ACCOUNT BALANCE", '=','500.0']
+            ["ACCOUNT BALANCE", '=','500.0'],
+            ["TRANSACTION DETAILS", '=','BIG BANK CORP']
         ]
 
         for arg_list in args:
