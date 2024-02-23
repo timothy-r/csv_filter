@@ -1,13 +1,17 @@
 import re
 
+from csv_filter.parse.filter_generator import FilterGenerator
 from csv_filter.parse.table_filter import TableFilter, Condition
 
 """
     Class that parses a list of arguments into a format to use to build a filter
 """
-class CliParser:
+class CliParser(FilterGenerator):
 
-    def parse(self, args:list) -> TableFilter:
+    def __init__(self, args:list) -> None:
+        self._args = args
+
+    def generate(self) -> TableFilter:
         """
             parse the args from the cli into a TableFilter instance
         """
@@ -16,7 +20,7 @@ class CliParser:
 
         valid_comparisons = ''.join(table_filter.valid_comparisons())
 
-        for arg in args:
+        for arg in self._args:
             if (index % 2 == 0):
                 table_filter.add_condition(
                     self._parse_condition(arg=arg, valid_comparisons=valid_comparisons)

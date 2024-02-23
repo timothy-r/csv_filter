@@ -7,7 +7,6 @@ class CliParserTest(unittest.TestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self._parser = CliParser()
 
     def test_parse_one_condition_simple(self) -> None:
 
@@ -23,7 +22,9 @@ class CliParserTest(unittest.TestCase):
         for arg_list in args:
             arg = ''.join(arg_list)
 
-            result = self._parser.parse([arg])
+            parser = CliParser(args=[arg])
+            result = parser.generate()
+
             self.assertEqual(1, result.condition_count())
             self.assertEqual(0, result.operator_count())
             condition = result.condition(0)
@@ -44,7 +45,9 @@ class CliParserTest(unittest.TestCase):
             rhs = ','.join(arg_list[2])
             arg = ''.join([arg_list[0], arg_list[1], rhs])
 
-            result = self._parser.parse([arg])
+            parser = CliParser(args=[arg])
+            result = parser.generate()
+
             self.assertEqual(1, result.condition_count())
             self.assertEqual(0, result.operator_count())
             condition = result.condition(0)
@@ -65,7 +68,9 @@ class CliParserTest(unittest.TestCase):
 
             c_2 = ''.join(arg_list[2])
 
-            result = self._parser.parse([c_1, arg_list[1], c_2])
+            parser = CliParser(args=[c_1, arg_list[1], c_2])
+            result = parser.generate()
+
             self.assertEqual(2, result.condition_count())
             self.assertEqual(1, result.operator_count())
 

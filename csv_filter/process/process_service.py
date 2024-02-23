@@ -1,5 +1,6 @@
 import pandas as pd
-from csv_filter.parse.cli_parser import CliParser
+
+# from csv_filter.parse.cli_parser import CliParser
 from csv_filter.parse.table_filter import TableFilter
 
 """
@@ -7,18 +8,12 @@ from csv_filter.parse.table_filter import TableFilter
 """
 class ProcessService:
 
-    def __init__(self, parser:CliParser) -> None:
-        self._parser = parser
-
-    def run(self, path:str, args:list) -> str:
+    def run(self, path:str, filter:TableFilter) -> str:
         """
-            parse the arguments
             read the file into a data frame
             apply the filters
             return the filtered csv as a string (or write to a file?)
         """
-
-        filter = self._parser.parse(args=args)
 
         df = pd.read_csv(filepath_or_buffer=path)
 
