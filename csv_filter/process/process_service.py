@@ -16,11 +16,10 @@ class ProcessService:
 
         df = pd.read_csv(filepath_or_buffer=path)
 
-        filtered_df = self._apply_filters(df, filter=filter)
+        filtered_df = filter.apply_filters(df)
 
         return filtered_df.to_csv()
 
-    def _apply_filters(self, df:pd.DataFrame, filter:TableFilter) -> pd.DataFrame:
         """
 
         """
