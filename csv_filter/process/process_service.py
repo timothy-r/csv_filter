@@ -1,8 +1,9 @@
 import pandas as pd
 from csv_filter.parse.cli_parser import CliParser
+from csv_filter.parse.table_filter import TableFilter
 
 """
-
+    Controls the overall process of filtering the input csv file
 """
 class ProcessService:
 
@@ -16,27 +17,34 @@ class ProcessService:
             apply the filters
             return the filtered csv as a string (or write to a file?)
         """
+
+        filter = self._parser.parse(args=args)
+
         df = pd.read_csv(filepath_or_buffer=path)
 
-        filtered_df = df
+        filtered_df = self._apply_filters(df, filter=filter)
 
-        self._parser.parse(args=args)
+        return filtered_df.to_csv()
 
-        ops = self._parser.operator_count()
+    def _apply_filters(self, df:pd.DataFrame, filter:TableFilter) -> pd.DataFrame:
+        """
+
+        """
+        ops = filter.operator_count()
         if ops == 0:
 
             # single condition
 
-            condition = self._parser.condition(0)
+            condition = filter.condition(0)
             lhs = condition.lhs
 
             if type(condition.rhs) == str:
-                if condition.comparison == CliParser.EQUALS:
-                    filtered_df = df.loc[df[lhs] == condition.rhs]
-                elif condition.comparison == CliParser.GREATER_THAN:
-                    filtered_df = df.loc[df[lhs] > condition.rhs]
-                elif condition.comparison == CliParser.LESS_THAN:
-                    filtered_df = df.loc[df[lhs] < condition.rhs]
+                if condition.comparison == TableFilter.EQUALS:
+                    df = df.loc[df[lhs] == condition.rhs]
+                elif condition.comparison == TableFilter.GREATER_THAN:
+                    df = df.loc[df[lhs] > condition.rhs]
+                elif condition.comparison == TableFilter.LESS_THAN:
+                    df = df.loc[df[lhs] < condition.rhs]
 
             elif type(condition.rhs) == list:
                 pass
@@ -48,4 +56,4 @@ class ProcessService:
         else:
             raise ValueError("More than 1 operator is not supported")
 
-        return filtered_df.to_csv()
+        return df
