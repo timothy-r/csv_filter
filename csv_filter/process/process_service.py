@@ -1,51 +1,64 @@
 import pandas as pd
-from csv_filter.parse.cli_parser import CliParser
+
+from csv_filter.parse.table_filter import TableFilter
 
 """
-
+    Controls the overall process of filtering the input csv file
 """
 class ProcessService:
 
-    def __init__(self, parser:CliParser) -> None:
-        self._parser = parser
-
-    def run(self, path:str, args:list) -> str:
+    def run(self, path:str, filter:TableFilter) -> str:
         """
-            parse the arguments
             read the file into a data frame
             apply the filters
             return the filtered csv as a string (or write to a file?)
         """
+
         df = pd.read_csv(filepath_or_buffer=path)
 
-        filtered_df = df
+        filtered_df = filter.apply_filters(df)
 
-        self._parser.parse(args=args)
+        return filtered_df.to_csv()
 
-        ops = self._parser.operator_count()
+        """
+
+        """
+        ops = filter.operator_count()
         if ops == 0:
 
             # single condition
 
-            condition = self._parser.condition(0)
+            condition = filter.condition(0)
             lhs = condition.lhs
 
             if type(condition.rhs) == str:
-                if condition.comparison == CliParser.EQUALS:
-                    filtered_df = df.loc[df[lhs] == condition.rhs]
-                elif condition.comparison == CliParser.GREATER_THAN:
-                    filtered_df = df.loc[df[lhs] > condition.rhs]
-                elif condition.comparison == CliParser.LESS_THAN:
-                    filtered_df = df.loc[df[lhs] < condition.rhs]
+                if condition.comparison == TableFilter.EQUALS:
+                    df = df.loc[df[lhs] == condition.rhs]
+                elif condition.comparison == TableFilter.GREATER_THAN:
+                    df = df.loc[df[lhs] > condition.rhs]
+                elif condition.comparison == TableFilter.LESS_THAN:
+                    df = df.loc[df[lhs] < condition.rhs]
 
             elif type(condition.rhs) == list:
-                pass
+                if condition.comparison == TableFilter.EQUALS:
+                    df = df.loc[df[lhs].isin(condition.rhs)]
+                else:
+                    raise TypeError
             else:
                 raise TypeError
+
         elif ops == 1:
             # 2 conditions
+            condition_1 = filter.condition(0)
+            operator = filter.operator(0)
+            condition_2 = filter.condition(1)
+
+            if type(condition_1.rhs) == str and type(condition_2.rhs) == str and operator == TableFilter.OP_AND:
+                df = df.loc[(df[condition_1.lhs] == condition_1.rhs) & (df[condition_2.lhs] == condition_2.rhs)]
+            else:
+                raise TypeError
             pass
         else:
             raise ValueError("More than 1 operator is not supported")
 
-        return filtered_df.to_csv()
+        return df

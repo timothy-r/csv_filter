@@ -3,18 +3,27 @@ from dependency_injector.wiring import Provide, inject
 
 from csv_filter.container import Container
 from csv_filter.process.process_service import ProcessService
+from csv_filter.parse.cli_parser import CliParser
 
 @inject
 def main(
     path:str,
     args:list,
-    filter: ProcessService = Provide[Container.filter]
+    process_service: ProcessService = Provide[Container.process_service]
     ) -> None:
 
-    result = filter.run(path=path, args=args)
+    try:
 
-    # print its response
-    print(result)
+        parser = CliParser(args=args)
+        table_filter = parser.generate()
+
+        result = process_service.run(path=path, filter=table_filter)
+
+        # print its response
+        print(result)
+
+    except KeyError as err:
+        print("KeyError: key'{}' is invalid".format(err))
 
 if __name__ == "__main__":
 

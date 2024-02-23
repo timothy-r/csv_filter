@@ -1,60 +1,52 @@
 import re
-from collections import namedtuple
 
-Condition = namedtuple("Condition", "lhs comparison rhs")
+from csv_filter.parse.filter_generator import FilterGenerator
+from csv_filter.parse.table_filter import TableFilter
+from csv_filter.parse.condition import Condition
+from csv_filter.parse.operator import Operator
 
 """
     Class that parses a list of arguments into a format to use to build a filter
 """
-class CliParser:
+class CliParser(FilterGenerator):
 
-    OP_AND = 'and'
-    OP_OR = 'or'
-
-    EQUALS = '='
-    GREATER_THAN = '>'
-    LESS_THAN = '<'
-
-    def parse(self, args:list) -> None:
+    def __init__(self, args:list) -> None:
         self._args = args
-        self._conditions = []
-        self._operators = []
 
+    def generate(self) -> TableFilter:
+        """
+            parse the args from the cli into a TableFilter instance
+        """
+        table_filter = TableFilter()
         index = 0
 
-        for arg in args:
+        valid_comparisons = ''.join(Condition.valid_comparisons())
+
+        for arg in self._args:
             if (index % 2 == 0):
-                self._conditions.append(self._parse_condition(arg))
+                table_filter.add_condition(
+                    self._parse_condition(arg=arg, valid_comparisons=valid_comparisons)
+                )
             else:
-                if arg in [self.OP_AND, self.OP_OR]:
-                    self._operators.append(arg)
+                op = Operator.from_str(arg)
+                if op:
+                    table_filter.add_operator(operator=op)
                 else:
-                    raise ValueError('Invalid operator "{}"'.format(arg))
+                    raise ValueError("Invalid operator: {}".format(arg))
 
             index += 1
 
-    def condition(self, index:int) -> Condition:
-        if index < len(self._conditions):
-            return self._conditions[index]
+        return table_filter
 
-    def condition_count(self) -> int:
-        return len(self._conditions)
-
-    def operator(self, index:int) -> str:
-        if index < len(self._operators):
-            return self._operators[index]
-
-    def operator_count(self) -> int:
-        return len(self._operators)
-
-    def _parse_condition(self, arg:str):
+    def _parse_condition(self, arg:str, valid_comparisons:str):
         """
             split arg into 3 parts lhs, comparison, rhs
-            valid op comparisons are = < >
+            valid op comparisons are supplied by the TableFilter
             split rhs on comma
         """
+        pattern = "(.*)([{}])(.*)".format(valid_comparisons)
 
-        matches = re.match("(.*)([=<>])(.*)", arg)
+        matches = re.match(pattern=pattern, string=arg)
 
         if len(matches.groups()) == 3:
             # split rhs on comma
@@ -62,9 +54,6 @@ class CliParser:
             if len(rhs) == 1:
                 rhs = matches.group(3)
 
-            if matches.group(2) in [self.EQUALS, self.GREATER_THAN, self.LESS_THAN]:
-                return Condition(lhs=matches.group(1),comparison=matches.group(2), rhs=rhs)
-            else:
-                raise ValueError('Invalid comparison arg "{}"'.format(matches.group(2)))
+            return Condition(lhs=matches.group(1),comparison=matches.group(2), rhs=rhs)
         else:
             raise ValueError('Invalid arg "{}"'.format(arg))
