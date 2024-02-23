@@ -1,7 +1,7 @@
 from dependency_injector import containers, providers
 
 from csv_filter.parse.cli_parser import CliParser
-from csv_filter.filter.filter import Filter
+from csv_filter.process.process_service import ProcessService
 
 class Container(containers.DeclarativeContainer):
 
@@ -10,6 +10,6 @@ class Container(containers.DeclarativeContainer):
     )
 
     filter = providers.Singleton(
-        Filter,
+        ProcessService,
         parser=cli_parser
     )
