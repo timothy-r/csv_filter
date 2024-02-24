@@ -11,8 +11,8 @@ from csv_filter.filter.filter_director import FilterDirector
 def main(
     path:str,
     args:list,
-    director_factory:Callable[..., FilterDirector] = Provide[Container.cli_args_director.provider],
-    process_service: ProcessService = Provide[Container.process_service]
+    director_factory: Callable[..., FilterDirector] = Provide[Container.cli_args_director.provider],
+    process_service: ProcessService = Provide[Container.pandas_process_service]
     ) -> None:
 
     try:

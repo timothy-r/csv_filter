@@ -3,8 +3,8 @@ from dependency_injector import containers, providers
 from csv_filter.parse.cli_args_director import CliArgsDirector
 from csv_filter.parse.condition_parser import ConditionParser
 
-from csv_filter.process.process_service import ProcessService
-from csv_filter.filter.table_filter_builder import TableFilterBuilder
+from csv_filter.process.pandas_process_service import PandasProcessService
+from csv_filter.pandas_filter.pandas_table_filter_builder import PandasTableFilterBuilder
 
 class Container(containers.DeclarativeContainer):
 
@@ -12,16 +12,16 @@ class Container(containers.DeclarativeContainer):
         ConditionParser
     )
 
-    process_service = providers.Singleton(
-        ProcessService
+    pandas_process_service = providers.Singleton(
+        PandasProcessService
     )
 
-    table_filter_builder = providers.Factory(
-        TableFilterBuilder
+    pandas_table_filter_builder = providers.Factory(
+        PandasTableFilterBuilder
     )
 
     cli_args_director = providers.Factory(
         CliArgsDirector,
-        builder=table_filter_builder,
+        builder=pandas_table_filter_builder,
         parser=condition_parser
     )
