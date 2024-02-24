@@ -6,10 +6,7 @@ from csv_filter.parse.condition_parser import ConditionParser
 from csv_filter.process.process_service import ProcessService
 from csv_filter.filter.table_filter_builder import TableFilterBuilder
 
-
-
 class Container(containers.DeclarativeContainer):
-
 
     condition_parser = providers.Factory(
         ConditionParser

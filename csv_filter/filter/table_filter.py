@@ -3,9 +3,10 @@ import pandas as pd
 from abc import ABC, abstractmethod
 
 from csv_filter.query.condition import Condition
+
 """
-    Applies a single condition filter to data frames
-    With a list of values
+    Applies condition filters to pandas data frames
+    With one or more conditions
 """
 class TableFilter(ABC):
 

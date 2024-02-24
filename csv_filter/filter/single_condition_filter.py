@@ -4,8 +4,7 @@ from csv_filter.query.condition import Condition
 from csv_filter.filter.table_filter import TableFilter
 
 """
-    Applies a single condition filter to data frames
-    with a single value
+    Applies a single condition filter to pandas data frames
 """
 class SingleConditionFilter(TableFilter):
 

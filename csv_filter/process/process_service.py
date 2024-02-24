@@ -1,10 +1,10 @@
 import pandas as pd
 
-from csv_filter.parse.cli_args_director import CliArgsDirector
 from csv_filter.filter.filter_director import FilterDirector
 
 """
     Controls the overall process of filtering the input csv file
+    uses pandas to read & filter the data
 """
 class ProcessService:
 

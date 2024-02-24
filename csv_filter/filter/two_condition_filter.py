@@ -5,7 +5,7 @@ from csv_filter.query.operator import Operator
 from csv_filter.filter.table_filter import TableFilter
 
 """
-    Applies two value condition filters with an and operations to data frames
+    Applies two value condition filters with an operation to pandas data frames
 """
 class TwoConditionFilter(TableFilter):
 
