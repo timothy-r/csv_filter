@@ -10,11 +10,11 @@ class Condition:
 
     lhs: str
     comparison: Comparision
-    rhs: str|list
+    rhs: str|list|float
 
     def __post_init__(self):
         t = type(self.rhs)
-        if not t in [str, list]:
+        if not t in [str, list, float]:
             raise TypeError("rhs is an invalid type: {}".format(t))
 
     def is_equals(self) -> bool:
@@ -27,7 +27,7 @@ class Condition:
         return self.comparison == Comparision.GREATER_THAN
 
     def rhs_is_value(self) -> bool:
-        return type(self.rhs) == str
+        return type(self.rhs) in [str, float]
 
     def rhs_is_list(self) -> bool:
         return type(self.rhs) == list
