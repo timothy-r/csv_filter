@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from csv_filter.query.comparison import Comparision
 
+from csv_filter.query.rhs import RHS
 """
     Class that contains the parts of a condition to filter on
 """
@@ -10,12 +11,7 @@ class Condition:
 
     lhs: str
     comparison: Comparision
-    rhs: str|list|float
-
-    def __post_init__(self):
-        t = type(self.rhs)
-        if not t in [str, list, float, int]:
-            raise TypeError("rhs is an invalid type: {}".format(t))
+    rhs: RHS
 
     def is_equals(self) -> bool:
         return self.comparison == Comparision.EQUALS
@@ -27,7 +23,7 @@ class Condition:
         return self.comparison == Comparision.GREATER_THAN
 
     def rhs_is_value(self) -> bool:
-        return type(self.rhs) in [str, float, int]
+        return self.rhs.is_value()
 
     def rhs_is_list(self) -> bool:
-        return type(self.rhs) == list
+        return self.rhs.is_list()

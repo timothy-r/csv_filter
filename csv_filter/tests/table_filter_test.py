@@ -9,13 +9,17 @@ from csv_filter.filter.two_condition_filter import TwoConditionFilter
 from csv_filter.query.condition import Condition
 from csv_filter.query.operator import Operator
 from csv_filter.query.comparison import Comparision
+from csv_filter.query.rhs_list import RHSList
+from csv_filter.query.rhs_value import RHSValue
+
 class TableFilterTest(unittest.TestCase):
 
     def test_single_condition_value_equals_filter(self) -> None:
 
         test_df = self.get_bank_account_df()
 
-        condition = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs='DEB')
+        rhs = RHSValue('DEB')
+        condition = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=rhs)
         filter = SingleConditionFilter(condition=condition)
 
         result_df = filter.apply_filters(df=test_df)
@@ -27,7 +31,8 @@ class TableFilterTest(unittest.TestCase):
     def test_single_condition_value_less_than_filter(self) -> None:
         test_df = self.get_bank_account_df()
 
-        condition = Condition(lhs='Debit Amount', comparison=Comparision.LESS_THAN, rhs=50.0)
+        rhs = RHSValue('50.0')
+        condition = Condition(lhs='Debit Amount', comparison=Comparision.LESS_THAN, rhs=rhs)
         filter = SingleConditionFilter(condition=condition)
 
         result_df = filter.apply_filters(df=test_df)
@@ -39,7 +44,8 @@ class TableFilterTest(unittest.TestCase):
     def test_single_condition_value_greater_than_filter(self) -> None:
         test_df = self.get_bank_account_df()
 
-        condition = Condition(lhs='Debit Amount', comparison=Comparision.GREATER_THAN, rhs=50.0)
+        rhs = RHSValue('50.0')
+        condition = Condition(lhs='Debit Amount', comparison=Comparision.GREATER_THAN, rhs=rhs)
         filter = SingleConditionFilter(condition=condition)
 
         result_df = filter.apply_filters(df=test_df)
@@ -52,7 +58,8 @@ class TableFilterTest(unittest.TestCase):
     def test_single_condition_list_filter(self) -> None:
         test_df = self.get_bank_account_df()
 
-        condition = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=['DD','FEE'])
+        rhs = RHSList(['DD','FEE'])
+        condition = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=rhs)
         filter = SingleConditionFilter(condition=condition)
 
         result_df = filter.apply_filters(df=test_df)
@@ -63,9 +70,11 @@ class TableFilterTest(unittest.TestCase):
 
     def test_two_condition_and_filter(self) -> None:
         test_df = self.get_bank_account_df()
-        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs='DEB')
+        rhs_a = RHSValue('DEB')
+        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=rhs_a)
         operator = Operator.AND
-        condition_b = Condition(lhs='Description', comparison=Comparision.EQUALS, rhs='DELIVEROO')
+        rhs_b = RHSValue('DELIVEROO')
+        condition_b = Condition(lhs='Description', comparison=Comparision.EQUALS, rhs=rhs_b)
 
         filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
 
@@ -74,9 +83,11 @@ class TableFilterTest(unittest.TestCase):
 
     def test_two_condition_less_than_and_filter(self) -> None:
         test_df = self.get_bank_account_df()
-        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs='DEB')
+        rhs_a = RHSValue('DEB')
+        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=rhs_a)
         operator = Operator.AND
-        condition_b = Condition(lhs='Debit Amount', comparison=Comparision.LESS_THAN, rhs=50.0)
+        rhs_b = RHSValue('50.0')
+        condition_b = Condition(lhs='Debit Amount', comparison=Comparision.LESS_THAN, rhs=rhs_b)
 
         filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
 
@@ -85,9 +96,11 @@ class TableFilterTest(unittest.TestCase):
 
     def test_two_condition_greater_than_and_filter(self) -> None:
         test_df = self.get_bank_account_df()
-        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs='DEB')
+        rhs_a = RHSValue('DEB')
+        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=rhs_a)
         operator = Operator.AND
-        condition_b = Condition(lhs='Debit Amount', comparison=Comparision.GREATER_THAN, rhs=50.0)
+        rhs_b = RHSValue('50.0')
+        condition_b = Condition(lhs='Debit Amount', comparison=Comparision.GREATER_THAN, rhs=rhs_b)
 
         filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
 
@@ -96,9 +109,11 @@ class TableFilterTest(unittest.TestCase):
 
     def test_two_condition_equals_or_filter(self) -> None:
         test_df = self.get_bank_account_df()
-        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs='DEB')
+        rhs_a = RHSValue('DEB')
+        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=rhs_a)
         operator = Operator.OR
-        condition_b = Condition(lhs='Description', comparison=Comparision.EQUALS, rhs='MONTHLY FEE')
+        rhs_b = RHSValue('MONTHLY FEE')
+        condition_b = Condition(lhs='Description', comparison=Comparision.EQUALS, rhs=rhs_b)
 
         filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
 
