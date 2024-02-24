@@ -28,3 +28,17 @@ class ConditionTest(unittest.TestCase):
 
         cond_b = Condition('Height', Comparision.EQUALS, '66')
         self.assertFalse(cond_b.is_greater_than())
+
+    def test_rhs_is_value(self) -> None:
+        cond = Condition('Height', Comparision.GREATER_THAN, '66')
+        self.assertTrue(cond.rhs_is_value())
+
+        cond_b = Condition('Height', Comparision.EQUALS, ['66', '777'])
+        self.assertFalse(cond_b.rhs_is_value())
+
+    def test_rhs_is_list(self) -> None:
+        cond = Condition('Height', Comparision.GREATER_THAN, ['99','66'])
+        self.assertTrue(cond.rhs_is_list())
+
+        cond_b = Condition('Height', Comparision.EQUALS, '777')
+        self.assertFalse(cond_b.rhs_is_list())

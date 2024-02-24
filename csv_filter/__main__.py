@@ -15,9 +15,8 @@ def main(
     try:
 
         parser = CliParser(args=args)
-        table_filter = parser.generate()
 
-        result = process_service.run(path=path, filter=table_filter)
+        result = process_service.run(path=path, filter=parser.generate())
 
         # print its response
         print(result)
