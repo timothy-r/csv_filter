@@ -2,6 +2,8 @@ import re
 
 from csv_filter.query.condition import Condition
 from csv_filter.query.comparison import Comparision
+from csv_filter.query.rhs_list import RHSList
+from csv_filter.query.rhs_value import RHSValue
 
 class ConditionParser:
 
@@ -19,9 +21,12 @@ class ConditionParser:
 
         if len(matches.groups()) == 3:
             # split rhs on comma
-            rhs = matches.group(3).split(',')
-            if len(rhs) == 1:
-                rhs = matches.group(3)
+            items = matches.group(3).split(',')
+
+            if len(items) == 1:
+                rhs = RHSValue(matches.group(3))
+            else:
+                rhs = RHSList(items)
 
             comp = Comparision.from_str(matches.group(2))
 

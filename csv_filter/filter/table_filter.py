@@ -19,11 +19,11 @@ class TableFilter(ABC):
         """
         if condition.rhs_is_value():
             if condition.is_equals():
-                return (df[condition.lhs] == condition.rhs)
+                return (df[condition.lhs] == condition.rhs.value)
             elif condition.is_less_than():
-                return (df[condition.lhs] < condition.rhs)
+                return (df[condition.lhs] < condition.rhs.value)
             elif condition.is_greater_than():
-                return (df[condition.lhs] > condition.rhs)
+                return (df[condition.lhs] > condition.rhs.value)
 
         elif condition.rhs_is_list():
-            return (df[condition.lhs].isin(condition.rhs))
+            return (df[condition.lhs].isin(condition.rhs.value))
