@@ -13,21 +13,11 @@ class TwoConditionValuesAndFilter(TableFilter):
         self._condition_b = b
 
     def apply_filters(self, df:pd.DataFrame) -> pd.DataFrame:
-        # apply comparisons as well
-        if self._condition_a.is_equals() and self._condition_b.is_equals():
-            df = df.loc[
-                (df[self._condition_a.lhs] == self._condition_a.rhs)
-                &
-                (df[self._condition_b.lhs] == self._condition_b.rhs)
-                ]
-        elif self._condition_a.is_equals() and self._condition_b.is_less_than():
-            df = df.loc[
-                (df[self._condition_a.lhs] == self._condition_a.rhs)
-                &
-                (df[self._condition_b.lhs] < self._condition_b.rhs)
-                ]
 
-        # else:
-            # raise TypeError
+        one = self._generate_expression(condition=self._condition_a, df=df)
+        two = self._generate_expression(condition=self._condition_b, df=df)
+
+        df = df.loc[one & two]
 
         return df
+

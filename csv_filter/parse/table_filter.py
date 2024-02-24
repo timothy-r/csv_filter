@@ -52,7 +52,7 @@ class TableFilter:
 
             if type(condition.rhs) == str:
                 if condition.comparison == Comparision.EQUALS:
-                    df = df.loc[df[lhs] == condition.rhs]
+                    df = df.loc[(df[lhs] == condition.rhs)]
                 elif condition.comparison == Comparision.GREATER_THAN:
                     df = df.loc[df[lhs] > condition.rhs]
                 elif condition.comparison == Comparision.LESS_THAN:
@@ -75,7 +75,11 @@ class TableFilter:
 
         # need to use condition.comparison as well
         if type(condition_1.rhs) == str and type(condition_2.rhs) == str and operator == Operator.AND:
-            df = df.loc[(df[condition_1.lhs] == condition_1.rhs) & (df[condition_2.lhs] == condition_2.rhs)]
+
+            one = (df[condition_1.lhs] == condition_1.rhs)
+            two = (df[condition_2.lhs] == condition_2.rhs)
+
+            df = df.loc[one & two]
         else:
             raise TypeError
 

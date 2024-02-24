@@ -21,3 +21,4 @@ class Comparision(Enum):
     @staticmethod
     def valid_comparisons() -> list:
         return [Comparision.LESS_THAN.value, Comparision.EQUALS.value, Comparision.GREATER_THAN.value]
+
