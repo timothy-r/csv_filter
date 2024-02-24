@@ -11,4 +11,4 @@ class Operator(Enum):
         elif value == Operator.OR.value:
             return Operator.OR
         else:
-            return None
+            raise ValueError("Invalid operator: {}".format(arg))

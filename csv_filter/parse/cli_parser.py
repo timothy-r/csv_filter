@@ -30,10 +30,7 @@ class CliParser(FilterGenerator):
                 )
             else:
                 op = Operator.from_str(arg)
-                if op:
-                    table_filter.add_operator(operator=op)
-                else:
-                    raise ValueError("Invalid operator: {}".format(arg))
+                table_filter.add_operator(operator=op)
 
             index += 1
 
