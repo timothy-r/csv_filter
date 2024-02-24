@@ -1,6 +1,6 @@
 import unittest
 
-from csv_filter.parse.cli_parser import CliParser
+from csv_filter.parse.cli_args_director import CliArgsDirector
 from csv_filter.filter.single_condition_filter import SingleConditionFilter
 from csv_filter.filter.two_condition_filter import TwoConditionFilter
 
@@ -21,7 +21,7 @@ class CliParserTest(unittest.TestCase):
         for arg_list in args:
             arg = ''.join(arg_list)
 
-            parser = CliParser(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
+            parser = CliArgsDirector(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
             result = parser.generate()
             self.assertIsInstance(result, SingleConditionFilter)
 
@@ -37,7 +37,7 @@ class CliParserTest(unittest.TestCase):
         for arg_list in args:
             arg = ''.join(arg_list)
 
-            parser = CliParser(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
+            parser = CliArgsDirector(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
             result = parser.generate()
             self.assertIsInstance(result, SingleConditionFilter)
 
@@ -54,7 +54,7 @@ class CliParserTest(unittest.TestCase):
             rhs = ','.join(arg_list[2])
             arg = ''.join([arg_list[0], arg_list[1], rhs])
 
-            parser = CliParser(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
+            parser = CliArgsDirector(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
             result = parser.generate()
             self.assertIsInstance(result, SingleConditionFilter)
 
@@ -71,7 +71,7 @@ class CliParserTest(unittest.TestCase):
 
             c_2 = ''.join(arg_list[2])
 
-            parser = CliParser(args=[c_1, arg_list[1], c_2], parser=ConditionParser(), builder=TableFilterBuilder())
+            parser = CliArgsDirector(args=[c_1, arg_list[1], c_2], parser=ConditionParser(), builder=TableFilterBuilder())
             result = parser.generate()
 
             self.assertIsInstance(result, TwoConditionFilter)

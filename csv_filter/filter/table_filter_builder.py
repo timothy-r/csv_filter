@@ -1,4 +1,5 @@
 
+from csv_filter.filter.filter_builder import FilterBuilder
 from csv_filter.filter.table_filter import TableFilter
 from csv_filter.filter.single_condition_filter import SingleConditionFilter
 from csv_filter.filter.two_condition_filter import TwoConditionFilter
@@ -6,7 +7,10 @@ from csv_filter.filter.two_condition_filter import TwoConditionFilter
 from csv_filter.query.condition import Condition
 from csv_filter.query.operator import Operator
 
-class TableFilterBuilder:
+"""
+    Implements the builder interface
+"""
+class TableFilterBuilder(FilterBuilder):
 
     def __init__(self) -> None:
         self._conditions = []

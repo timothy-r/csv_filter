@@ -1,18 +1,17 @@
-from csv_filter.parse.filter_generator import FilterGenerator
+from csv_filter.filter.filter_director import FilterDirector
 from csv_filter.filter.table_filter import TableFilter
-from csv_filter.filter.table_filter_builder import TableFilterBuilder
+from csv_filter.filter.filter_builder import FilterBuilder
 
 from csv_filter.parse.condition_parser import ConditionParser
-
 from csv_filter.query.operator import Operator
 
 """
     Class that parses a list of arguments into a format to use to build a filter
     Acts as the director in the builder design pattern
 """
-class CliParser(FilterGenerator):
+class CliArgsDirector(FilterDirector):
 
-    def __init__(self, args:list, builder:TableFilterBuilder, parser:ConditionParser) -> None:
+    def __init__(self, args:list, builder:FilterBuilder, parser:ConditionParser) -> None:
         self._args = args
         self._builder = builder
         self._parser = parser

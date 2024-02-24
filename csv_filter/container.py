@@ -1,6 +1,6 @@
 from dependency_injector import containers, providers
 
-from csv_filter.parse.cli_parser import CliParser
+from csv_filter.parse.cli_args_director import CliArgsDirector
 from csv_filter.parse.condition_parser import ConditionParser
 
 from csv_filter.process.process_service import ProcessService
@@ -23,8 +23,8 @@ class Container(containers.DeclarativeContainer):
         TableFilterBuilder
     )
 
-    cli_parser = providers.Factory(
-        CliParser,
+    cli_args_director = providers.Factory(
+        CliArgsDirector,
         builder=table_filter_builder,
         parser=condition_parser
     )

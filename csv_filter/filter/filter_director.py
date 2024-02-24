@@ -2,8 +2,10 @@ from abc import ABC, abstractmethod
 
 from csv_filter.filter.table_filter import TableFilter
 
-
-class FilterGenerator(ABC):
+"""
+    Directs the building of a TableFilter using a TableFilterBuilder
+"""
+class FilterDirector(ABC):
 
     @abstractmethod
     def generate(self) -> TableFilter:

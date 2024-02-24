@@ -3,26 +3,23 @@ from dependency_injector.wiring import Provide, inject
 
 from csv_filter.container import Container
 from csv_filter.process.process_service import ProcessService
-from csv_filter.parse.cli_parser import CliParser
-from csv_filter.parse.condition_parser import ConditionParser
-
-from csv_filter.filter.table_filter_builder import TableFilterBuilder
+from csv_filter.filter.filter_director import FilterDirector
 
 @inject
 def main(
     path:str,
     args:list,
-    cli_parser_factory:CliParser = Provide[Container.cli_parser.provider],
+    director_factory:FilterDirector = Provide[Container.cli_args_director.provider],
     process_service: ProcessService = Provide[Container.process_service]
     ) -> None:
 
     try:
 
-        cli_parser = cli_parser_factory(args=args)
+        director = director_factory(args=args)
 
         result = process_service.run(
             path=path,
-            director=cli_parser
+            director=director
         )
 
         # print its response

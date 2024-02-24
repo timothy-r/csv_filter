@@ -1,13 +1,14 @@
 import pandas as pd
 
-from csv_filter.parse.cli_parser import CliParser
+from csv_filter.parse.cli_args_director import CliArgsDirector
+from csv_filter.filter.filter_director import FilterDirector
 
 """
     Controls the overall process of filtering the input csv file
 """
 class ProcessService:
 
-    def run(self, path:str, director:CliParser) -> str:
+    def run(self, path:str, director:FilterDirector) -> str:
         """
             read the file into a data frame
             apply the filters
