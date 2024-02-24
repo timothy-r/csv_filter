@@ -1,7 +1,5 @@
 import pandas as pd
 
-from abc import ABC, abstractmethod
-
 from csv_filter.filter.filter import Filter
 from csv_filter.query.condition import Condition
 
@@ -9,11 +7,10 @@ from csv_filter.query.condition import Condition
     Applies condition filters to pandas data frames
     With one or more conditions
 """
-class PandasTableFilter(ABC):
+class PandasTableFilter(Filter):
 
-    @abstractmethod
-    def apply_filters(self, df:pd.DataFrame) -> pd.DataFrame:
-        pass
+    def set_df(self, df:pd.DataFrame) -> None:
+        self._df = df
 
     def _generate_expression(self,  condition:Condition, df:pd.DataFrame):
         """

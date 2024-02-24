@@ -20,6 +20,8 @@ class PandasProcessService(ProcessService):
 
         filter = director.generate()
 
-        filtered_df = filter.apply_filters(df)
+        filter.set_df(df)
+
+        filtered_df = filter.apply_filters()
 
         return filtered_df.to_csv()

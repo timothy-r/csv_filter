@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
 
-from csv_filter.pandas_filter.pandas_table_filter import PandasTableFilter
+from csv_filter.filter.filter import Filter
 
 """
-    Directs the building of a TableFilter using a FilterBuilder
+    Directs the building of a Filter using a FilterBuilder
 """
 class FilterDirector(ABC):
 
     @abstractmethod
-    def generate(self) -> PandasTableFilter:
+    def generate(self) -> Filter:
         pass

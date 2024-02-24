@@ -22,7 +22,9 @@ class TableFilterTest(unittest.TestCase):
         condition = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=rhs)
         filter = PandasSingleConditionFilter(condition=condition)
 
-        result_df = filter.apply_filters(df=test_df)
+        filter.set_df(df=test_df)
+
+        result_df = filter.apply_filters()
         self.assertEqual(3, len(result_df.values))
 
         for cell in result_df.get('Type'):
@@ -34,8 +36,9 @@ class TableFilterTest(unittest.TestCase):
         rhs = RHSValue('50.0')
         condition = Condition(lhs='Debit Amount', comparison=Comparision.LESS_THAN, rhs=rhs)
         filter = PandasSingleConditionFilter(condition=condition)
+        filter.set_df(df=test_df)
 
-        result_df = filter.apply_filters(df=test_df)
+        result_df = filter.apply_filters()
         self.assertEqual(3, len(result_df.values))
 
         for cell in result_df.get('Debit Amount'):
@@ -47,8 +50,10 @@ class TableFilterTest(unittest.TestCase):
         rhs = RHSValue('50.0')
         condition = Condition(lhs='Debit Amount', comparison=Comparision.GREATER_THAN, rhs=rhs)
         filter = PandasSingleConditionFilter(condition=condition)
+        filter.set_df(df=test_df)
 
-        result_df = filter.apply_filters(df=test_df)
+        result_df = filter.apply_filters()
+
         self.assertEqual(2, len(result_df.values))
 
         for cell in result_df.get('Debit Amount'):
@@ -61,8 +66,10 @@ class TableFilterTest(unittest.TestCase):
         rhs = RHSList(['DD','FEE'])
         condition = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=rhs)
         filter = PandasSingleConditionFilter(condition=condition)
+        filter.set_df(df=test_df)
 
-        result_df = filter.apply_filters(df=test_df)
+        result_df = filter.apply_filters()
+
         self.assertEqual(2, len(result_df.values))
         for cell in result_df.get('Type'):
             self.assertTrue(cell in ['DD','FEE'])
@@ -77,8 +84,10 @@ class TableFilterTest(unittest.TestCase):
         condition_b = Condition(lhs='Description', comparison=Comparision.EQUALS, rhs=rhs_b)
 
         filter = PandasTwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+        filter.set_df(df=test_df)
 
-        result_df = filter.apply_filters(df=test_df)
+        result_df = filter.apply_filters()
+
         self.assertEqual(1, len(result_df.values))
 
     def test_two_condition_less_than_and_filter(self) -> None:
@@ -90,8 +99,10 @@ class TableFilterTest(unittest.TestCase):
         condition_b = Condition(lhs='Debit Amount', comparison=Comparision.LESS_THAN, rhs=rhs_b)
 
         filter = PandasTwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+        filter.set_df(df=test_df)
 
-        result_df = filter.apply_filters(df=test_df)
+        result_df = filter.apply_filters()
+
         self.assertEqual(2, len(result_df.values))
 
     def test_two_condition_greater_than_and_filter(self) -> None:
@@ -103,8 +114,10 @@ class TableFilterTest(unittest.TestCase):
         condition_b = Condition(lhs='Debit Amount', comparison=Comparision.GREATER_THAN, rhs=rhs_b)
 
         filter = PandasTwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+        filter.set_df(df=test_df)
 
-        result_df = filter.apply_filters(df=test_df)
+        result_df = filter.apply_filters()
+
         self.assertEqual(1, len(result_df.values))
 
     def test_two_condition_equals_or_filter(self) -> None:
@@ -116,8 +129,10 @@ class TableFilterTest(unittest.TestCase):
         condition_b = Condition(lhs='Description', comparison=Comparision.EQUALS, rhs=rhs_b)
 
         filter = PandasTwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+        filter.set_df(df=test_df)
 
-        result_df = filter.apply_filters(df=test_df)
+        result_df = filter.apply_filters()
+
         self.assertEqual(4, len(result_df.values))
 
 

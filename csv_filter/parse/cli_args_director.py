@@ -1,6 +1,6 @@
 from csv_filter.filter.filter_director import FilterDirector
-from csv_filter.pandas_filter.pandas_table_filter import PandasTableFilter
 from csv_filter.filter.filter_builder import FilterBuilder
+from csv_filter.filter.filter import Filter
 
 from csv_filter.parse.condition_parser import ConditionParser
 from csv_filter.query.operator import Operator
@@ -16,7 +16,7 @@ class CliArgsDirector(FilterDirector):
         self._builder = builder
         self._parser = parser
 
-    def generate(self) -> PandasTableFilter:
+    def generate(self) -> Filter:
         """
             parse the args from the cli into a TableFilter instance
         """
