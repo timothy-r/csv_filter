@@ -14,6 +14,9 @@ class TableFilter(ABC):
         pass
 
     def _generate_expression(self,  condition:Condition, df:pd.DataFrame):
+        """
+            for a single condition generate a filter expression
+        """
         if condition.is_equals():
             return (df[condition.lhs] == condition.rhs)
         elif self._condition_a.is_less_than():
