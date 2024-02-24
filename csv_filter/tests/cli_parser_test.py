@@ -5,6 +5,10 @@ from csv_filter.filter.single_condition_filter import SingleConditionFilter
 from csv_filter.filter.two_condition_filter import TwoConditionFilter
 
 from csv_filter.query.operator import Operator
+
+from csv_filter.parse.condition_parser import ConditionParser
+from csv_filter.filter.table_filter_builder import TableFilterBuilder
+
 class CliParserTest(unittest.TestCase):
 
     def test_parse_one_condition_simple(self) -> None:
@@ -17,7 +21,7 @@ class CliParserTest(unittest.TestCase):
         for arg_list in args:
             arg = ''.join(arg_list)
 
-            parser = CliParser(args=[arg])
+            parser = CliParser(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
             result = parser.generate()
             self.assertIsInstance(result, SingleConditionFilter)
 
@@ -33,7 +37,7 @@ class CliParserTest(unittest.TestCase):
         for arg_list in args:
             arg = ''.join(arg_list)
 
-            parser = CliParser(args=[arg])
+            parser = CliParser(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
             result = parser.generate()
             self.assertIsInstance(result, SingleConditionFilter)
 
@@ -50,7 +54,7 @@ class CliParserTest(unittest.TestCase):
             rhs = ','.join(arg_list[2])
             arg = ''.join([arg_list[0], arg_list[1], rhs])
 
-            parser = CliParser(args=[arg])
+            parser = CliParser(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
             result = parser.generate()
             self.assertIsInstance(result, SingleConditionFilter)
 
@@ -67,7 +71,7 @@ class CliParserTest(unittest.TestCase):
 
             c_2 = ''.join(arg_list[2])
 
-            parser = CliParser(args=[c_1, arg_list[1], c_2])
+            parser = CliParser(args=[c_1, arg_list[1], c_2], parser=ConditionParser(), builder=TableFilterBuilder())
             result = parser.generate()
 
             self.assertIsInstance(result, TwoConditionFilter)
