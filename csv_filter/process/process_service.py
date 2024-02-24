@@ -1,6 +1,6 @@
 import pandas as pd
 
-from csv_filter.parse.table_filter import TableFilter
+from csv_filter.filter.table_filter import TableFilter
 
 """
     Controls the overall process of filtering the input csv file
