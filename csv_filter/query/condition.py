@@ -14,7 +14,7 @@ class Condition:
 
     def __post_init__(self):
         t = type(self.rhs)
-        if not t in [str, list, float]:
+        if not t in [str, list, float, int]:
             raise TypeError("rhs is an invalid type: {}".format(t))
 
     def is_equals(self) -> bool:
@@ -27,7 +27,7 @@ class Condition:
         return self.comparison == Comparision.GREATER_THAN
 
     def rhs_is_value(self) -> bool:
-        return type(self.rhs) in [str, float]
+        return type(self.rhs) in [str, float, int]
 
     def rhs_is_list(self) -> bool:
         return type(self.rhs) == list
