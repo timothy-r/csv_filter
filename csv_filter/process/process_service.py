@@ -1,6 +1,6 @@
 import pandas as pd
 
-from csv_filter.parse.table_filter import TableFilter
+from csv_filter.filter.table_filter import TableFilter
 
 """
     Controls the overall process of filtering the input csv file
@@ -19,46 +19,3 @@ class ProcessService:
         filtered_df = filter.apply_filters(df)
 
         return filtered_df.to_csv()
-
-        """
-
-        """
-        ops = filter.operator_count()
-        if ops == 0:
-
-            # single condition
-
-            condition = filter.condition(0)
-            lhs = condition.lhs
-
-            if type(condition.rhs) == str:
-                if condition.comparison == TableFilter.EQUALS:
-                    df = df.loc[df[lhs] == condition.rhs]
-                elif condition.comparison == TableFilter.GREATER_THAN:
-                    df = df.loc[df[lhs] > condition.rhs]
-                elif condition.comparison == TableFilter.LESS_THAN:
-                    df = df.loc[df[lhs] < condition.rhs]
-
-            elif type(condition.rhs) == list:
-                if condition.comparison == TableFilter.EQUALS:
-                    df = df.loc[df[lhs].isin(condition.rhs)]
-                else:
-                    raise TypeError
-            else:
-                raise TypeError
-
-        elif ops == 1:
-            # 2 conditions
-            condition_1 = filter.condition(0)
-            operator = filter.operator(0)
-            condition_2 = filter.condition(1)
-
-            if type(condition_1.rhs) == str and type(condition_2.rhs) == str and operator == TableFilter.OP_AND:
-                df = df.loc[(df[condition_1.lhs] == condition_1.rhs) & (df[condition_2.lhs] == condition_2.rhs)]
-            else:
-                raise TypeError
-            pass
-        else:
-            raise ValueError("More than 1 operator is not supported")
-
-        return df

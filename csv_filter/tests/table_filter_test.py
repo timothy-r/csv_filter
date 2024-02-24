@@ -1,30 +1,124 @@
 import unittest
 
-from csv_filter.parse.table_filter import TableFilter, Condition
+import pandas as pd
 
+from csv_filter.filter.table_filter import TableFilter
+from csv_filter.filter.single_condition_filter import SingleConditionFilter
+from csv_filter.filter.two_condition_filter import TwoConditionFilter
+
+from csv_filter.query.condition import Condition
+from csv_filter.query.operator import Operator
+from csv_filter.query.comparison import Comparision
 class TableFilterTest(unittest.TestCase):
 
-    def test_add_condition(self) -> None:
+    def test_single_condition_value_equals_filter(self) -> None:
 
-        filter = TableFilter()
+        test_df = self.get_bank_account_df()
 
-        condition = Condition(lhs='A', comparison='=', rhs='1')
+        condition = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs='DEB')
+        filter = SingleConditionFilter(condition=condition)
 
-        filter.add_condition(condition=condition)
+        result_df = filter.apply_filters(df=test_df)
+        self.assertEqual(3, len(result_df.values))
 
-        self.assertEqual(1, filter.condition_count())
-        self.assertEqual(0, filter.operator_count())
-        self.assertEqual(condition, filter.condition(0))
+        for cell in result_df.get('Type'):
+            self.assertEqual('DEB', cell)
 
-    def test_add_operator(self) -> None:
+    def test_single_condition_value_less_than_filter(self) -> None:
+        test_df = self.get_bank_account_df()
 
-        filter = TableFilter()
+        condition = Condition(lhs='Debit Amount', comparison=Comparision.LESS_THAN, rhs=50.0)
+        filter = SingleConditionFilter(condition=condition)
 
-        filter.add_operator(operator=TableFilter.OP_AND)
+        result_df = filter.apply_filters(df=test_df)
+        self.assertEqual(3, len(result_df.values))
 
-        self.assertEqual(1, filter.operator_count())
-        self.assertEqual(0, filter.condition_count())
+        for cell in result_df.get('Debit Amount'):
+            self.assertTrue(cell < 50.0)
 
-        op = filter.operator(0)
+    def test_single_condition_value_greater_than_filter(self) -> None:
+        test_df = self.get_bank_account_df()
 
-        self.assertEqual(TableFilter.OP_AND, op)
+        condition = Condition(lhs='Debit Amount', comparison=Comparision.GREATER_THAN, rhs=50.0)
+        filter = SingleConditionFilter(condition=condition)
+
+        result_df = filter.apply_filters(df=test_df)
+        self.assertEqual(2, len(result_df.values))
+
+        for cell in result_df.get('Debit Amount'):
+            self.assertTrue(cell > 50.0)
+
+
+    def test_single_condition_list_filter(self) -> None:
+        test_df = self.get_bank_account_df()
+
+        condition = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=['DD','FEE'])
+        filter = SingleConditionFilter(condition=condition)
+
+        result_df = filter.apply_filters(df=test_df)
+        self.assertEqual(2, len(result_df.values))
+        for cell in result_df.get('Type'):
+            self.assertTrue(cell in ['DD','FEE'])
+
+
+    def test_two_condition_and_filter(self) -> None:
+        test_df = self.get_bank_account_df()
+        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs='DEB')
+        operator = Operator.AND
+        condition_b = Condition(lhs='Description', comparison=Comparision.EQUALS, rhs='DELIVEROO')
+
+        filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+
+        result_df = filter.apply_filters(df=test_df)
+        self.assertEqual(1, len(result_df.values))
+
+    def test_two_condition_less_than_and_filter(self) -> None:
+        test_df = self.get_bank_account_df()
+        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs='DEB')
+        operator = Operator.AND
+        condition_b = Condition(lhs='Debit Amount', comparison=Comparision.LESS_THAN, rhs=50.0)
+
+        filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+
+        result_df = filter.apply_filters(df=test_df)
+        self.assertEqual(2, len(result_df.values))
+
+    def test_two_condition_greater_than_and_filter(self) -> None:
+        test_df = self.get_bank_account_df()
+        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs='DEB')
+        operator = Operator.AND
+        condition_b = Condition(lhs='Debit Amount', comparison=Comparision.GREATER_THAN, rhs=50.0)
+
+        filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+
+        result_df = filter.apply_filters(df=test_df)
+        self.assertEqual(1, len(result_df.values))
+
+    def test_two_condition_equals_or_filter(self) -> None:
+        test_df = self.get_bank_account_df()
+        condition_a = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs='DEB')
+        operator = Operator.OR
+        condition_b = Condition(lhs='Description', comparison=Comparision.EQUALS, rhs='MONTHLY FEE')
+
+        filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+
+        result_df = filter.apply_filters(df=test_df)
+        self.assertEqual(4, len(result_df.values))
+
+
+
+    def get_bank_account_df(self) -> pd.DataFrame:
+        """
+            create a general purpose df in memory
+        """
+        cols = ['Date','Type','Account Number','Description','Debit Amount','Credit Amount','Balance']
+        values = [
+            ['06/02/2024','DEB','00168780','WAITROSE',103.0,'',3500.08],
+            ['05/02/2024','DEB','00168780','DELIVEROO',27.5,'',3660.73],
+            ['05/02/2024','FEE','00168780','MONTHLY FEE',17.2,'',3702.97],
+            ['05/02/2024','DEB','00168780','BREW DOG',38.9,'',3803.51],
+            ['04/02/2024','DD','00168780','BARCLAYS MORTGAGE',1238.9,'',5153.42]
+        ]
+
+        return pd.DataFrame(values,
+                  columns=cols)
