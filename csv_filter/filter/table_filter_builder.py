@@ -26,13 +26,8 @@ class TableFilterBuilder:
             return SingleConditionFilter(condition=self._conditions[0])
 
         elif len(self._conditions) == 2 and len(self._operators) == 1:
-            cond_a = self._conditions[0]
-            op = self._operators[0]
-            cond_b = self._conditions[1]
-
-            if op == Operator.AND:
-                # test each condition
-                if cond_a.rhs_is_value() and cond_b.rhs_is_value():
-                    return TwoConditionFilter(a=cond_a, b=cond_b)
-            elif op == Operator.OR:
-                pass
+            return TwoConditionFilter(
+                a=self._conditions[0],
+                b=self._conditions[1],
+                op=self._operators[0]
+            )
