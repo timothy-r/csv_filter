@@ -28,7 +28,7 @@ class ConditionParser:
             else:
                 rhs = RHSList(items)
 
-            comp = Comparision.from_str(matches.group(2))
+            comp = Comparision(matches.group(2))
 
             return Condition(lhs=matches.group(1), comparison=comp, rhs=rhs)
         else:

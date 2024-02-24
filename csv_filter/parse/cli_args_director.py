@@ -28,7 +28,7 @@ class CliArgsDirector(FilterDirector):
                     self._parser.parse(arg=arg)
                 )
             else:
-                op = Operator.from_str(arg)
+                op = Operator(arg)
                 self._builder.add_operator(operator=op)
 
             index += 1
