@@ -1,13 +1,13 @@
 import unittest
 
 from csv_filter.parse.cli_args_director import CliArgsDirector
-from csv_filter.filter.single_condition_filter import SingleConditionFilter
-from csv_filter.filter.two_condition_filter import TwoConditionFilter
+from csv_filter.pandas_filter.pandas_single_condition_filter import PandasSingleConditionFilter
+from csv_filter.pandas_filter.pandas_two_condition_filter import PandasTwoConditionFilter
 
 from csv_filter.query.operator import Operator
 
 from csv_filter.parse.condition_parser import ConditionParser
-from csv_filter.filter.table_filter_builder import TableFilterBuilder
+from csv_filter.pandas_filter.pandas_table_filter_builder import PandasTableFilterBuilder
 
 class CliParserTest(unittest.TestCase):
 
@@ -21,9 +21,9 @@ class CliParserTest(unittest.TestCase):
         for arg_list in args:
             arg = ''.join(arg_list)
 
-            parser = CliArgsDirector(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
+            parser = CliArgsDirector(args=[arg], parser=ConditionParser(), builder=PandasTableFilterBuilder())
             result = parser.generate()
-            self.assertIsInstance(result, SingleConditionFilter)
+            self.assertIsInstance(result, PandasSingleConditionFilter)
 
     def test_parse_one_condition_simple_numerics(self) -> None:
 
@@ -37,9 +37,9 @@ class CliParserTest(unittest.TestCase):
         for arg_list in args:
             arg = ''.join(arg_list)
 
-            parser = CliArgsDirector(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
+            parser = CliArgsDirector(args=[arg], parser=ConditionParser(), builder=PandasTableFilterBuilder())
             result = parser.generate()
-            self.assertIsInstance(result, SingleConditionFilter)
+            self.assertIsInstance(result, PandasSingleConditionFilter)
 
 
     def test_parse_one_condition_multi_value(self) -> None:
@@ -54,9 +54,9 @@ class CliParserTest(unittest.TestCase):
             rhs = ','.join(arg_list[2])
             arg = ''.join([arg_list[0], arg_list[1], rhs])
 
-            parser = CliArgsDirector(args=[arg], parser=ConditionParser(), builder=TableFilterBuilder())
+            parser = CliArgsDirector(args=[arg], parser=ConditionParser(), builder=PandasTableFilterBuilder())
             result = parser.generate()
-            self.assertIsInstance(result, SingleConditionFilter)
+            self.assertIsInstance(result, PandasSingleConditionFilter)
 
 
     def test_parse_two_conditions(self) -> None:
@@ -71,7 +71,7 @@ class CliParserTest(unittest.TestCase):
 
             c_2 = ''.join(arg_list[2])
 
-            parser = CliArgsDirector(args=[c_1, arg_list[1], c_2], parser=ConditionParser(), builder=TableFilterBuilder())
+            parser = CliArgsDirector(args=[c_1, arg_list[1], c_2], parser=ConditionParser(), builder=PandasTableFilterBuilder())
             result = parser.generate()
 
-            self.assertIsInstance(result, TwoConditionFilter)
+            self.assertIsInstance(result, PandasTwoConditionFilter)

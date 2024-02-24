@@ -2,13 +2,14 @@ import pandas as pd
 
 from abc import ABC, abstractmethod
 
+from csv_filter.filter.filter import Filter
 from csv_filter.query.condition import Condition
 
 """
     Applies condition filters to pandas data frames
     With one or more conditions
 """
-class TableFilter(ABC):
+class PandasTableFilter(ABC):
 
     @abstractmethod
     def apply_filters(self, df:pd.DataFrame) -> pd.DataFrame:

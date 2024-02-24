@@ -1,10 +1,10 @@
 import unittest
 
 import pandas as pd
+from csv_filter.pandas_filter.pandas_table_filter import PandasTableFilter
 
-from csv_filter.filter.table_filter import TableFilter
-from csv_filter.filter.single_condition_filter import SingleConditionFilter
-from csv_filter.filter.two_condition_filter import TwoConditionFilter
+from csv_filter.pandas_filter.pandas_single_condition_filter import PandasSingleConditionFilter
+from csv_filter.pandas_filter.pandas_two_condition_filter import PandasTwoConditionFilter
 
 from csv_filter.query.condition import Condition
 from csv_filter.query.operator import Operator
@@ -20,7 +20,7 @@ class TableFilterTest(unittest.TestCase):
 
         rhs = RHSValue('DEB')
         condition = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=rhs)
-        filter = SingleConditionFilter(condition=condition)
+        filter = PandasSingleConditionFilter(condition=condition)
 
         result_df = filter.apply_filters(df=test_df)
         self.assertEqual(3, len(result_df.values))
@@ -33,7 +33,7 @@ class TableFilterTest(unittest.TestCase):
 
         rhs = RHSValue('50.0')
         condition = Condition(lhs='Debit Amount', comparison=Comparision.LESS_THAN, rhs=rhs)
-        filter = SingleConditionFilter(condition=condition)
+        filter = PandasSingleConditionFilter(condition=condition)
 
         result_df = filter.apply_filters(df=test_df)
         self.assertEqual(3, len(result_df.values))
@@ -46,7 +46,7 @@ class TableFilterTest(unittest.TestCase):
 
         rhs = RHSValue('50.0')
         condition = Condition(lhs='Debit Amount', comparison=Comparision.GREATER_THAN, rhs=rhs)
-        filter = SingleConditionFilter(condition=condition)
+        filter = PandasSingleConditionFilter(condition=condition)
 
         result_df = filter.apply_filters(df=test_df)
         self.assertEqual(2, len(result_df.values))
@@ -60,7 +60,7 @@ class TableFilterTest(unittest.TestCase):
 
         rhs = RHSList(['DD','FEE'])
         condition = Condition(lhs='Type', comparison=Comparision.EQUALS, rhs=rhs)
-        filter = SingleConditionFilter(condition=condition)
+        filter = PandasSingleConditionFilter(condition=condition)
 
         result_df = filter.apply_filters(df=test_df)
         self.assertEqual(2, len(result_df.values))
@@ -76,7 +76,7 @@ class TableFilterTest(unittest.TestCase):
         rhs_b = RHSValue('DELIVEROO')
         condition_b = Condition(lhs='Description', comparison=Comparision.EQUALS, rhs=rhs_b)
 
-        filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+        filter = PandasTwoConditionFilter(a=condition_a, b=condition_b, op=operator)
 
         result_df = filter.apply_filters(df=test_df)
         self.assertEqual(1, len(result_df.values))
@@ -89,7 +89,7 @@ class TableFilterTest(unittest.TestCase):
         rhs_b = RHSValue('50.0')
         condition_b = Condition(lhs='Debit Amount', comparison=Comparision.LESS_THAN, rhs=rhs_b)
 
-        filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+        filter = PandasTwoConditionFilter(a=condition_a, b=condition_b, op=operator)
 
         result_df = filter.apply_filters(df=test_df)
         self.assertEqual(2, len(result_df.values))
@@ -102,7 +102,7 @@ class TableFilterTest(unittest.TestCase):
         rhs_b = RHSValue('50.0')
         condition_b = Condition(lhs='Debit Amount', comparison=Comparision.GREATER_THAN, rhs=rhs_b)
 
-        filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+        filter = PandasTwoConditionFilter(a=condition_a, b=condition_b, op=operator)
 
         result_df = filter.apply_filters(df=test_df)
         self.assertEqual(1, len(result_df.values))
@@ -115,7 +115,7 @@ class TableFilterTest(unittest.TestCase):
         rhs_b = RHSValue('MONTHLY FEE')
         condition_b = Condition(lhs='Description', comparison=Comparision.EQUALS, rhs=rhs_b)
 
-        filter = TwoConditionFilter(a=condition_a, b=condition_b, op=operator)
+        filter = PandasTwoConditionFilter(a=condition_a, b=condition_b, op=operator)
 
         result_df = filter.apply_filters(df=test_df)
         self.assertEqual(4, len(result_df.values))

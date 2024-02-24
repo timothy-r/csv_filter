@@ -4,7 +4,7 @@ from csv_filter.parse.cli_args_director import CliArgsDirector
 from csv_filter.parse.condition_parser import ConditionParser
 
 from csv_filter.process.pandas_process_service import PandasProcessService
-from csv_filter.filter.table_filter_builder import TableFilterBuilder
+from csv_filter.pandas_filter.pandas_table_filter_builder import PandasTableFilterBuilder
 
 class Container(containers.DeclarativeContainer):
 
@@ -17,7 +17,7 @@ class Container(containers.DeclarativeContainer):
     )
 
     table_filter_builder = providers.Factory(
-        TableFilterBuilder
+        PandasTableFilterBuilder
     )
 
     cli_args_director = providers.Factory(
