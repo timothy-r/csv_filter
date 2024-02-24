@@ -16,12 +16,12 @@ class Container(containers.DeclarativeContainer):
         PandasProcessService
     )
 
-    table_filter_builder = providers.Factory(
+    pandas_table_filter_builder = providers.Factory(
         PandasTableFilterBuilder
     )
 
     cli_args_director = providers.Factory(
         CliArgsDirector,
-        builder=table_filter_builder,
+        builder=pandas_table_filter_builder,
         parser=condition_parser
     )
