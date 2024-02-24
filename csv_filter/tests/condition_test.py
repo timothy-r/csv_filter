@@ -1,7 +1,7 @@
 import unittest
 
-from csv_filter.parse.condition import Condition
-from csv_filter.parse.comparison import Comparision
+from csv_filter.query.condition import Condition
+from csv_filter.query.comparison import Comparision
 
 class ConditionTest(unittest.TestCase):
 

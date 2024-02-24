@@ -1,6 +1,6 @@
 import pandas as pd
 
-from csv_filter.parse.condition import Condition
+from csv_filter.query.condition import Condition
 
 from csv_filter.filter.table_filter import TableFilter
 

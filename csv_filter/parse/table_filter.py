@@ -1,8 +1,8 @@
 import pandas as pd
 
-from csv_filter.parse.condition import Condition
-from csv_filter.parse.operator import Operator
-from csv_filter.parse.comparison import Comparision
+from csv_filter.query.condition import Condition
+from csv_filter.query.operator import Operator
+from csv_filter.query.comparison import Comparision
 
 """
     Class that encapsulates the filters to apply to a pandas data frame

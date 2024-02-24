@@ -2,7 +2,7 @@ import pandas as pd
 
 from abc import ABC, abstractmethod
 
-from csv_filter.parse.condition import Condition
+from csv_filter.query.condition import Condition
 """
     Applies a single condition filter to data frames
     With a list of values

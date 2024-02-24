@@ -2,8 +2,8 @@ import unittest
 
 from csv_filter.parse.cli_parser import CliParser
 from csv_filter.parse.table_filter import TableFilter
-from csv_filter.parse.operator import Operator
-from csv_filter.parse.comparison import Comparision
+from csv_filter.query.operator import Operator
+from csv_filter.query.comparison import Comparision
 class CliParserTest(unittest.TestCase):
 
     def setUp(self) -> None:

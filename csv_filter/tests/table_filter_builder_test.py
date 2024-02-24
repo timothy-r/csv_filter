@@ -5,9 +5,9 @@ from csv_filter.filter.table_filter import TableFilter
 from csv_filter.filter.single_condition_list_filter import SingleConditionListFilter
 from csv_filter.filter.single_condition_value_filter import SingleConditionValueFilter
 
-from csv_filter.parse.operator import Operator
-from csv_filter.parse.condition import Condition
-from csv_filter.parse.comparison import Comparision
+from csv_filter.query.operator import Operator
+from csv_filter.query.condition import Condition
+from csv_filter.query.comparison import Comparision
 
 class TableFilterBuilderTest(unittest.TestCase):
 

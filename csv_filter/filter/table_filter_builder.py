@@ -4,8 +4,8 @@ from csv_filter.filter.single_condition_list_filter import SingleConditionListFi
 from csv_filter.filter.single_condition_value_filter import SingleConditionValueFilter
 from csv_filter.filter.two_condition_values_and_filter import TwoConditionValuesAndFilter
 
-from csv_filter.parse.condition import Condition
-from csv_filter.parse.operator import Operator
+from csv_filter.query.condition import Condition
+from csv_filter.query.operator import Operator
 
 class TableFilterBuilder:
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from csv_filter.parse.comparison import Comparision
+from csv_filter.query.comparison import Comparision
 
 """
     Class that contains the parts of a condition to filter on

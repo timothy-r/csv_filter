@@ -2,9 +2,9 @@ import re
 
 from csv_filter.parse.filter_generator import FilterGenerator
 from csv_filter.parse.table_filter import TableFilter
-from csv_filter.parse.condition import Condition
-from csv_filter.parse.operator import Operator
-from csv_filter.parse.comparison import Comparision
+from csv_filter.query.condition import Condition
+from csv_filter.query.operator import Operator
+from csv_filter.query.comparison import Comparision
 
 """
     Class that parses a list of arguments into a format to use to build a filter

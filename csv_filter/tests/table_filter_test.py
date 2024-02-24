@@ -1,7 +1,7 @@
 import unittest
 
 from csv_filter.parse.table_filter import TableFilter, Condition
-from csv_filter.parse.operator import Operator
+from csv_filter.query.operator import Operator
 
 class TableFilterTest(unittest.TestCase):
 
