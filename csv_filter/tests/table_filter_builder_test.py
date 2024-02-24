@@ -2,8 +2,7 @@ import unittest
 
 from csv_filter.filter.table_filter_builder import TableFilterBuilder
 from csv_filter.filter.table_filter import TableFilter
-from csv_filter.filter.single_condition_list_filter import SingleConditionListFilter
-from csv_filter.filter.single_condition_value_filter import SingleConditionValueFilter
+from csv_filter.filter.single_condition_filter import SingleConditionFilter
 
 from csv_filter.query.operator import Operator
 from csv_filter.query.condition import Condition
@@ -21,7 +20,7 @@ class TableFilterBuilderTest(unittest.TestCase):
         self._builder.add_condition(condition=condition)
 
         table_filter = self._builder.build()
-        self.assertIsInstance(table_filter, SingleConditionValueFilter)
+        self.assertIsInstance(table_filter, SingleConditionFilter)
 
     def test_build_single_condition_list_filter(self) -> None:
 
@@ -29,5 +28,5 @@ class TableFilterBuilderTest(unittest.TestCase):
         self._builder.add_condition(condition=condition)
 
         table_filter = self._builder.build()
-        self.assertIsInstance(table_filter, SingleConditionListFilter)
+        self.assertIsInstance(table_filter, SingleConditionFilter)
 

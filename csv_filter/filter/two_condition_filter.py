@@ -6,7 +6,7 @@ from csv_filter.parse.table_filter import TableFilter
 """
     Applies two value condition filters with an and operations to data frames
 """
-class TwoConditionValuesAndFilter(TableFilter):
+class TwoConditionFilter(TableFilter):
 
     def __init__(self, a:Condition, b:Condition) -> None:
         self._condition_a = a

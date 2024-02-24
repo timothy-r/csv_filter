@@ -17,9 +17,13 @@ class TableFilter(ABC):
         """
             for a single condition generate a filter expression
         """
-        if condition.is_equals():
-            return (df[condition.lhs] == condition.rhs)
-        elif self._condition_a.is_less_than():
-            return (df[condition.lhs] < condition.rhs)
-        elif self._condition_a.is_greater_than():
-            return (df[condition.lhs] > condition.rhs)
+        if condition.rhs_is_value():
+            if condition.is_equals():
+                return (df[condition.lhs] == condition.rhs)
+            elif self._condition_a.is_less_than():
+                return (df[condition.lhs] < condition.rhs)
+            elif self._condition_a.is_greater_than():
+                return (df[condition.lhs] > condition.rhs)
+
+        elif condition.rhs_is_list():
+            return (df[self._condition.lhs].isin(self._condition.rhs))
