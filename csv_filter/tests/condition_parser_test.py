@@ -23,7 +23,7 @@ class ConditionParserTest(unittest.TestCase):
             condition = self._parser.parse(arg=arg)
 
             self.assertEqual(arg_list[0], condition.lhs)
-            comp = Comparision.from_str(arg_list[1])
+            comp = Comparision(arg_list[1])
             self.assertEqual(comp, condition.comparison)
             self.assertEqual(arg_list[2], condition.rhs.value)
 
@@ -40,7 +40,7 @@ class ConditionParserTest(unittest.TestCase):
             condition = self._parser.parse(arg=arg)
 
             self.assertEqual(arg_list[0], condition.lhs)
-            comp = Comparision.from_str(arg_list[1])
+            comp = Comparision(arg_list[1])
             self.assertEqual(comp, condition.comparison)
             self.assertEqual(int(arg_list[2]), condition.rhs.value)
 
@@ -59,7 +59,7 @@ class ConditionParserTest(unittest.TestCase):
             condition = self._parser.parse(arg=arg)
 
             self.assertEqual(arg_list[0], condition.lhs)
-            comp = Comparision.from_str(arg_list[1])
+            comp = Comparision(arg_list[1])
             self.assertEqual(comp, condition.comparison)
             self.assertEqual(float(arg_list[2]), condition.rhs.value)
 
@@ -77,7 +77,7 @@ class ConditionParserTest(unittest.TestCase):
             condition = self._parser.parse(arg=arg)
 
             self.assertEqual(arg_list[0], condition.lhs)
-            comp = Comparision.from_str(arg_list[1])
+            comp = Comparision(arg_list[1])
             self.assertEqual(comp, condition.comparison)
             self.assertEqual(arg_list[2], condition.rhs.value)
 
@@ -96,7 +96,7 @@ class ConditionParserTest(unittest.TestCase):
             condition = self._parser.parse(arg=arg)
 
             self.assertEqual(arg_list[0], condition.lhs)
-            comp = Comparision.from_str(arg_list[1])
+            comp = Comparision(arg_list[1])
             self.assertEqual(comp, condition.comparison)
             expected = [
                 int(x) for x in arg_list[2]
@@ -116,7 +116,7 @@ class ConditionParserTest(unittest.TestCase):
             condition = self._parser.parse(arg=arg)
 
             self.assertEqual(arg_list[0], condition.lhs)
-            comp = Comparision.from_str(arg_list[1])
+            comp = Comparision(arg_list[1])
             self.assertEqual(comp, condition.comparison)
             expected = [
                 float(x) for x in arg_list[2]
